@@ -20,10 +20,11 @@ export const load: PageLoad = async ({ fetch }) => {
 
     // Fast paths: meals + preferences. Await these so the page can render
     // the menu without flicker.
-    const [mealsResult, preferencesResult] = await Promise.allSettled([
+    const [mealsResult, preferencesResult, menuFilterResult] = await Promise.allSettled([
         fetch(`${BaseURL}/mensa-garching/today`).then((res) => res.json()),
         fetch(`${BaseURL}/preferences/${username}`).then((res) => res.json()),
         // TODO fetch the feature toggle state for the menu filter
+        fetch(`${BaseURL}/features/menu-filter`).then((res: Response) => res.json() as Promise<boolean>),
     ]);
 
     const meals: Meal[] = mealsResult.status === 'fulfilled' ? mealsResult.value : [];
@@ -33,7 +34,8 @@ export const load: PageLoad = async ({ fetch }) => {
             : { favoriteMeals: [] };
 
     // TODO change the following line to fetch the feature toggle state for the menu filter
-    const menuFilterEnabled: boolean = false;
+    const menuFilterEnabled: boolean =
+        menuFilterResult.status === 'fulfilled' ? menuFilterResult.value : false;
 
     meals.forEach((meal: any) => {
         meal.favorite = preferences.favoriteMeals.includes(meal.name);

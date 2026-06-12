@@ -136,6 +136,9 @@
 
         <!-- Search and Filter UI (only shown when feature toggle is enabled) -->
         <!-- TODO only show when menuFilterEnabled is true, see below for if Svelte syntax -->
+        {#if menuFilterEnabled}
+            <MealFilter bind:searchQuery bind:dietaryFilters bind:showFilterPanel />
+        {/if}
 
         {#if meals.length === 0}
             <div class="no-results">

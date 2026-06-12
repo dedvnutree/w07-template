@@ -24,7 +24,8 @@ public class FeatureToggleController {
     @GetMapping("/features/{featureName}")
     public ResponseEntity<Boolean> getFeatureToggleState(@PathVariable("featureName") String featureName) {
         // TODO Return the state of the feature toggle if it exists, otherwise return false
-        return ResponseEntity.ok(false);
+        var value = featureToggles.getOrDefault(featureName, false);
+        return ResponseEntity.ok(value);
     }
 
     /**
@@ -37,6 +38,7 @@ public class FeatureToggleController {
     @PutMapping("/features/{featureName}")
     public ResponseEntity<Boolean> setFeatureToggleState(@PathVariable("featureName") String featureName, boolean enabled) {
         // TODO Set the state of the feature toggle and return the updated state
-        return ResponseEntity.ok(false);
+            featureToggles.put(featureName, enabled);
+        return ResponseEntity.ok(enabled);
     }
 }
