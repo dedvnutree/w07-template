@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "CanteenApp Bruno",
+  "name": "devops W07E01 CanteenApp Bruno",
   "type": "collection",
   "ignore": [
     "node_modules",
